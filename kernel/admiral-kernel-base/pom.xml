@@ -5,31 +5,30 @@
     <artifactId>kernel</artifactId>
     <groupId>com.admiralproject</groupId>
     <version>1.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>org.admiralproject.kernel</groupId>
-  <artifactId>admiral-kernel-util</artifactId>
-  <packaging>jar</packaging>
+  <artifactId>admiral-kernel-base</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>admiral-kernel-util</name>
+
+  <name>admiral-kernel-base</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <kernel.basedir>${basedir}/..</kernel.basedir>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
-
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->

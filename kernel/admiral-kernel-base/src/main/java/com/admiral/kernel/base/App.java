@@ -1,4 +1,4 @@
-package com.admiral.kernel.util;
+package com.admiral.kernel.base;
 
 /**
  * Hello world!

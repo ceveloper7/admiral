@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="admiral-kernel-util" />
+        <module name="admiral-kernel-base" />
       </profile>
     </annotationProcessing>
   </component>
