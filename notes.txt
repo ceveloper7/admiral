@@ -14,3 +14,23 @@ mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes
 -DartifactId=admiral-kernel-util
 -Dpackage=com.admiral.kernel.util
 -DinteractiveMode=false
+
+
+org.adempiere.Adempiere.java
+
+Adempiere.java
+==============
+validateConnectionDialog()
+    Ini.java
+    ========
+    Ini.getProperty(String)
+    SecureEngine.java
+    =================
+    SecureEngine.decrypt(string)
+Ini.java
+========
+loadProperties()                    ok
+    loadProperties(String)          ok
+        saveProperties()            ok
+            getFileName()           ok
+                getAdempiereHome()  ok
