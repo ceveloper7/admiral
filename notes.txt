@@ -17,16 +17,34 @@ mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes
 
 
 org.adempiere.Adempiere.java
-
-Adempiere.java
-==============
-validateConnectionDialog()
+============================
+validateConnectionDialog()------------------------
     Ini.java
     ========
-    Ini.getProperty(String)
-    SecureEngine.java
-    =================
-    SecureEngine.decrypt(string)
+    Ini.getProperty(String)                         ok
+        SecureEngine.java
+        =================
+        decrypt(String)                             ok
+        SecureEngine.decrypt(string)                ok
+            init(Properties)                        ok
+            constructor()                           ok
+            SecureInterface.java
+            ====================
+                decrypt(String)                     ok
+                    Secure.java
+                    ===========
+                    decrypt()                       ok
+                        convertHexString(String)    ok
+    CConnection.java
+    ================
+    constructor() --------------------------------- ok
+    AdmiralDatabase.java
+    ====================
+        constructor -------------------------------
+    setType()
+        Database.java
+        =============
+
 Ini.java
 ========
 loadProperties()                    ok

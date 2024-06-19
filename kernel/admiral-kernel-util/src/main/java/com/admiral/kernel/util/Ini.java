@@ -1,5 +1,6 @@
 package com.admiral.kernel.util;
 
+import com.admiral.kernel.util.secure.SecureEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -122,5 +123,18 @@ public final class Ini implements Serializable {
         if(reload || admiralProperties.isEmpty()){
             loadProperties(getAdmiralPropertyFileName(s_client));
         }
+    }
+
+    public static String getProperty(String key){
+        if (key == null)
+            return "";
+        String retStr = admiralProperties.getProperty(key, "");
+        if (retStr == null || retStr.length() == 0)
+            return "";
+        //
+        String value = SecureEngine.decrypt(retStr);
+        if (value == null)
+            return "";
+        return value;
     }
 }

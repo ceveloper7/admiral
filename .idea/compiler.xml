@@ -8,7 +8,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="admiral-kernel-util" />
         <module name="admiral-kernel-base" />
+        <module name="admiral-client-ui" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="admiral-client-admiralui" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
