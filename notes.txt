@@ -37,13 +37,18 @@ validateConnectionDialog()------------------------
                         convertHexString(String)    ok
     CConnection.java
     ================
-    constructor() --------------------------------- ok
+        constructor() ----------------------------- ok
+        setType()                                   ok
     AdmiralDatabase.java
     ====================
-        constructor -------------------------------
-    setType()
+        constructor ------------------------------- ok
         Database.java
         =============
+            constructor --------------------------- ok
+            DATABASE_POSTGRESQL.java
+            ========================
+                constructor()                       ok
+
 
 Ini.java
 ========

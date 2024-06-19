@@ -103,4 +103,18 @@ public class ADConnection implements Serializable, Cloneable {
         this.ad_db_pwd = ad_db_pwd;
         this.ad_okDB = false;
     }
+
+    public String getType() {
+        return ad_type;
+    }
+
+    public void setType(String type){
+        for(int i = 0; i < Database.DATABASE_NAMES.length; i++){
+            if(type.contains(Database.DATABASE_NAMES[i])){
+                ad_type = type;
+                ad_okDB = false;
+                break;
+            }
+        }
+    }
 }
