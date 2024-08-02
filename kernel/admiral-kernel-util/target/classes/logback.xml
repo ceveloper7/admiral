@@ -12,7 +12,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.admiral.kernel.util" level="info"/>
+    <logger name="com.admiral.kernel" level="info"/>
 
     <!--<logger name="org.springframework" level="info"/>-->
     <!--<logger name="org.hibernate.engine" level="info"/>-->

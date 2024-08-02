@@ -16,17 +16,51 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
     <kernel.basedir>${basedir}/..</kernel.basedir>
   </properties>
 
-<!--  <dependencies>-->
-<!--    <dependency>-->
-<!--      <groupId>org.admiralproject.kernel</groupId>-->
-<!--      <artifactId>admiral-kernel-util</artifactId>-->
-<!--    </dependency>-->
-<!--  </dependencies>-->
+  <dependencies>
+    <dependency>
+      <groupId>org.admiralproject.kernel</groupId>
+      <artifactId>admiral-kernel-util</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.admiralproject.kernel</groupId>
+      <artifactId>admiral-kernel-base</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+  </dependencies>
+
+
 
   <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/resources</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.metaprops</include>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+    </resources>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->

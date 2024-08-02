@@ -48,6 +48,9 @@ validateConnectionDialog()------------------------
             DATABASE_POSTGRESQL.java
             ========================
                 constructor()                       ok
+    CConnectionDialog
+    =================
+        constructor()------------------------------ pending
 
 
 Ini.java

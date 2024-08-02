@@ -1,15 +1,21 @@
 package com.admiral.client.ui;
 
 
+import com.admiral.kernel.util.Ini;
+import com.admiral.kernel.util.secure.SecureEngine;
+import com.admiral.kernel.base.db.ADConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Logger;
+
 
 public class Admiral
 {
-    private static final Logger log = Logger.getLogger(Admiral.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(Admiral.class);
     private static final String SYSTEM_NAME = "Admiral";
     private static String ADMIRAL_VERSION = "Release 1.0";
     private static String DATE_VERSION = "2025-01-01";
@@ -37,6 +43,7 @@ public class Admiral
                         s_ImplementationVersion = properties.getProperty("IMPLEMENTATION_VERSION");
                     if (properties.containsKey("IMPLEMENTATION_VENDOR"))
                         s_ImplementationVendor = properties.getProperty("IMPLEMENTATION_VENDOR");
+
                 }
                 catch (IOException e){}
             }
@@ -49,8 +56,25 @@ public class Admiral
         return SYSTEM_NAME;
     }
 
+    private static void validateConnectionDialog(){
+        String attributes = Ini.getProperty(Ini.P_CONNECTION);
+        if(attributes == null || attributes.isEmpty()){
+            attributes = SecureEngine.decrypt(System.getProperty(Ini.P_CONNECTION));
+        }
+        if(attributes == null || attributes.isEmpty()){
+            ADConnection cc = new ADConnection("");
+        }
+    }
+
+    private static synchronized void startup(boolean isClient) {
+        Ini.setClient(isClient);
+        Ini.loadProperties(false);
+    }
+
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        startup(true);
     }
+
+
 }

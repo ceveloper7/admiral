@@ -1,0 +1,4 @@
+com/admiral/kernel/base/db/Database_PostgreSQL.class
+com/admiral/kernel/base/db/ADConnection.class
+com/admiral/kernel/base/db/AdmiralDatabase.class
+com/admiral/kernel/base/db/Database.class
