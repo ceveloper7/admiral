@@ -50,12 +50,14 @@ validateConnectionDialog()------------------------
                 constructor()                       ok
     CConnectionDialog
     =================
-        constructor()------------------------------ pending
-            jbInit()------------------------------- pending
-            setConnection()------------------------ pending
+        constructor() ----------------------------- pending
+            jbInit() ------------------------------ pending
+            setConnection() ----------------------- pending
             AdempierePLAF
             =============
-                showCenterScreen()----------------- pending
+                showCenterScreen() ---------------- pending
+                getOkButton() --------------------- pending
+                getCancelBUtton() ----------------- pending
 
 
 Ini.java
