@@ -51,6 +51,11 @@ validateConnectionDialog()------------------------
     CConnectionDialog
     =================
         constructor()------------------------------ pending
+            jbInit()------------------------------- pending
+            setConnection()------------------------ pending
+            AdempierePLAF
+            =============
+                showCenterScreen()----------------- pending
 
 
 Ini.java

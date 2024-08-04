@@ -1,4 +1,4 @@
-package com.admiral.client.ui;
+package com.admiral.client;
 
 
 import com.admiral.kernel.util.Ini;
