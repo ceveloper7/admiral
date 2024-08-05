@@ -15,30 +15,49 @@ mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes
 -Dpackage=com.admiral.kernel.util
 -DinteractiveMode=false
 
+Compilas un modulo
+mvn clean install -Dmaven.test.skip=true
 
 org.adempiere.Adempiere.java
 ============================
-validateConnectionDialog()------------------------
+validateConnectionDialog()------------------------- pending
     Ini.java
     ========
-    Ini.getProperty(String)                         ok
+    loadProperties() ------------------------------ ok
+        loadProperties(String) -------------------- ok
+            saveProperties() ---------------------- ok
+                getFileName() --------------------- ok
+                    getAdempiereHome() ------------ ok
+        getProperty(String) ----------------------- ok
+        setProperty(String, String) --------------- ok
+
         SecureEngine.java
         =================
-        decrypt(String)                             ok
-        SecureEngine.decrypt(string)                ok
-            init(Properties)                        ok
-            constructor()                           ok
+            decrypt(String) ----------------------- ok
+            encrypt(String) ----------------------- ok
+        SecureEngine.decrypt(string) -------------- ok
+            init(Properties) ---------------------- ok
+            constructor() ------------------------- ok
             SecureInterface.java
             ====================
-                decrypt(String)                     ok
+                decrypt(String) ------------------- ok
                     Secure.java
                     ===========
-                    decrypt()                       ok
-                        convertHexString(String)    ok
-    CConnection.java
+                    decrypt() --------------------- ok
+                        convertHexString(String) -- ok
+    ADConnection.java
     ================
         constructor() ----------------------------- ok
-        setType()                                   ok
+        setType() --------------------------------- ok
+        get() ------------------------------------- ok
+            get(String) --------------------------- ok
+                ADConnection.setAttributes(String)- ok
+                Ini.saveProperties()--------------- pending
+        testDatabase(boolean) --------------------- pending
+            getDatabase() ------------------------- pending
+            setDatasource() ----------------------- pending
+            readInfo(ADConnection) ---------------- pending
+
     AdmiralDatabase.java
     ====================
         constructor ------------------------------- ok
@@ -47,17 +66,27 @@ validateConnectionDialog()------------------------
             constructor --------------------------- ok
             DATABASE_POSTGRESQL.java
             ========================
-                constructor()                       ok
+                constructor() --------------------- ok
+                close() --------------------------- pending
+                getDataSource --------------------- pending
     CConnectionDialog
     =================
-        constructor() ----------------------------- pending
-            jbInit() ------------------------------ pending
-            setConnection() ----------------------- pending
+        constructor() ----------------------------- ok
+            jbInit() ------------------------------ ok
+            setConnection() ----------------------- ok
+                ADConnection.get() ---------------- ok
+                ADConnection.clone() -------------- ok
+                ADConnection.setName() ------------ ok
+                ADConnection.getType() ------------ ok
+                ADConnection.setType() ------------ ok
+            updateInfo() -------------------------- ok
             AdempierePLAF
             =============
-                showCenterScreen() ---------------- pending
-                getOkButton() --------------------- pending
-                getCancelBUtton() ----------------- pending
+                showCenterScreen() ---------------- ok
+                getOkButton() --------------------- ok
+                getCancelButton() ----------------- ok
+        getConnection() --------------------------- pending
+        isCancel() -------------------------------- pending
 
 
 Ini.java

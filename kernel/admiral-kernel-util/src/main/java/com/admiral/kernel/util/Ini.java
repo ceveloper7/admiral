@@ -1,6 +1,7 @@
 package com.admiral.kernel.util;
 
 import com.admiral.kernel.util.secure.SecureEngine;
+import com.admiral.kernel.util.secure.SecureInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public final class Ini implements Serializable {
     private static boolean isLoaded = false;
     private static String propertyFileName = null;
 
-    private static Properties admiralProperties;
+    private static Properties admiralProperties = new Properties();
 
     // modo client?
     public static boolean isClient(){
@@ -136,5 +137,27 @@ public final class Ini implements Serializable {
         if (value == null)
             return "";
         return value;
+    }
+
+    public static void setProperty(String key, String value){
+        if(admiralProperties == null)
+            admiralProperties = new Properties();
+        if(!isClient()){
+            admiralProperties.setProperty(key, SecureInterface.CLEARVALUE_START + value + SecureInterface.CLEARVALUE_END);
+        }
+        else{
+            if(value == null){
+                admiralProperties.setProperty(key, "");
+            }
+            else{
+                String eValue = SecureEngine.encrypt(value);
+                if(eValue == null){
+                    admiralProperties.setProperty(key, "");
+                }
+                else{
+                    admiralProperties.setProperty(key, eValue);
+                }
+            }
+        }
     }
 }

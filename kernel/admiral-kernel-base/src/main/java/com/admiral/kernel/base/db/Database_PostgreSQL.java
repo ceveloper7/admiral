@@ -15,4 +15,9 @@ public class Database_PostgreSQL implements AdmiralDatabase{
     private String ad_connectionUrl;
 
     public Database_PostgreSQL() {}
+
+    @Override
+    public void close() {
+
+    }
 }

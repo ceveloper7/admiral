@@ -1,5 +1,9 @@
 package com.admiral.kernel.base.db;
 
+import com.admiral.kernel.util.Ini;
+import com.admiral.kernel.util.secure.SecureEngine;
+
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -18,6 +22,9 @@ public class ADConnection implements Serializable, Cloneable {
     private String ad_db_uid = "";
     private String ad_db_pwd = "";
 
+    /** Info                */
+    private String[] 	m_info = new String[2];
+
     private AdmiralDatabase ad_db = null;
     private Exception ad_dbException = null;
 
@@ -28,6 +35,82 @@ public class ADConnection implements Serializable, Cloneable {
         if(host != null){
             ad_apps_host = host;
             ad_db_host = host;
+        }
+    }
+
+    public static ADConnection get(){
+        return get(null);
+    }
+
+    public static ADConnection get(String ad_apps_host){
+        if(ad_cc == null){
+            String attributes = Ini.getProperty(Ini.P_CONNECTION);
+            if(attributes == null || attributes.isEmpty()){
+                attributes = SecureEngine.decrypt(System.getProperty(Ini.P_CONNECTION));
+            }
+
+            if(attributes != null && !attributes.isEmpty()){
+                ad_cc = new ADConnection(null);
+                ad_cc.setAttributes(attributes);
+                log.fine(ad_cc.toString());
+                Ini.setProperty(Ini.P_CONNECTION, ad_cc.toString());
+                // TODO: Ini.saveProperties(Ini.isClient());
+            }
+        }
+        return ad_cc;
+    }
+
+    public boolean isDatabaseOK ()
+    {
+        return ad_okDB;
+    } 	//  isDatabaseOK
+
+    /**
+     * @param value
+     * @return un-escape value
+     */
+    private String unescape(String value) {
+        value = value.replace("&eq;", "=");
+        value = value.replace("&comma;", ",");
+        return value;
+    }
+
+    private void setAttributes(String attributes){
+        try{
+            attributes = attributes.substring(attributes.indexOf("[") + 1, attributes.length() - 1);
+            String[] pairs = attributes.split("[,]");
+            for(String pair : pairs){
+                String[] pairComponents = pair.split("[=]");
+                String key = pairComponents[0];
+                String value = pairComponents.length == 2 ? unescape(pairComponents[1]) : "";
+                if("name".equalsIgnoreCase(key)){
+                    setName(value);
+                }
+                else if("AppHost".equalsIgnoreCase(key)){
+                    setAppsHost(value);
+                }
+                else if("type".equalsIgnoreCase(key)){
+                    setType(value);
+                }
+                else if("DBhost".equalsIgnoreCase(key)){
+                    setDbHost(value);
+                }
+                else if("DBPort".equalsIgnoreCase(key)){
+                    setDbPort(value);
+                }
+                else if("DBName".equalsIgnoreCase(key)){
+                    setDbName(value);
+                }
+                else if("UID".equalsIgnoreCase(key)){
+                    setDbUid(value);
+                }
+                else if("PWD".equalsIgnoreCase(key)){
+                    setDbPwd(value);
+                }
+            }
+        }
+        catch(Exception e){
+            log.severe(attributes + " - " + e.toString());
         }
     }
 
@@ -44,8 +127,13 @@ public class ADConnection implements Serializable, Cloneable {
         return ad_name;
     }
 
-    public void setName(String ad_name) {
-        this.ad_name = ad_name;
+    public void setName (String name)
+    {
+        this.ad_name = name;
+    }	//  setName
+
+    public void setName() {
+        this.ad_name = toString();
     }
 
     public String getAppsHost() {
@@ -116,5 +204,15 @@ public class ADConnection implements Serializable, Cloneable {
                 break;
             }
         }
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        ADConnection c = (ADConnection)super.clone();
+        String[] info = new String[2];
+        info[0] = m_info[0];
+        info[1] = m_info[1];
+        c.m_info = info;
+        return c;
     }
 }

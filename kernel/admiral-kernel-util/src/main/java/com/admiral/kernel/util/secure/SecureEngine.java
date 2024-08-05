@@ -58,4 +58,20 @@ public class SecureEngine {
             return "'" + retValue + "'";
         return retValue;
     }
+
+    public static String encrypt(String value){
+        if(value == null || value.isEmpty()){
+            return value;
+        }
+        if (s_engine == null)
+            init(System.getProperties());
+        boolean inQuotes = value.startsWith("'") && value.endsWith("'");
+        if (inQuotes)
+            value = value.substring(1, value.length()-1);
+        //
+        String retValue = s_engine.implementation.encrypt(value);
+        if (inQuotes)
+            return "'" + retValue + "'";
+        return retValue;
+    }
 }

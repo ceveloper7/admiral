@@ -7,4 +7,9 @@ public interface AdmiralDatabase {
     public static final int CMD_DELETE_DATABASE = 2;
 
     public static final String DEFAULT_CONNECTION_TEST_QUERY = "SELECT version FROM ad_system";
+
+    /**
+     * 	Close
+     */
+    public void close();
 }
