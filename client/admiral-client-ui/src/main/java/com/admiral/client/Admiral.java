@@ -1,6 +1,7 @@
 package com.admiral.client;
 
 
+import com.admiral.client.db.ADConnectionDialog;
 import com.admiral.kernel.util.Ini;
 import com.admiral.kernel.util.secure.SecureEngine;
 import com.admiral.kernel.base.db.ADConnection;
@@ -63,6 +64,9 @@ public class Admiral
         }
         if(attributes == null || attributes.isEmpty()){
             ADConnection cc = new ADConnection("");
+            ADConnectionDialog ccd = new ADConnectionDialog(cc);
+            cc = ccd.getConnection();
+            if(!cc.isDatabaseOK() && !ccd.isCancel()){}
         }
     }
 

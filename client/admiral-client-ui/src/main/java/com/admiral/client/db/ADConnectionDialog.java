@@ -184,4 +184,13 @@ public class ADConnectionDialog extends CDialog implements ActionListener {
         }
         updateInfo();
     }
+
+    public ADConnection getConnection()
+    {
+        return m_ccResult;
+    }   //  getConnection;
+
+    public boolean isCancel() {
+        return isCancel;
+    }
 }

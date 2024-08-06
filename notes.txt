@@ -55,7 +55,13 @@ validateConnectionDialog()------------------------- pending
                 Ini.saveProperties()--------------- pending
         testDatabase(boolean) --------------------- pending
             getDatabase() ------------------------- pending
+                Database_PostgreSQL.getDataSource() pending
+                Ini.deleteProperty() -------------- pending
+            Database_PostgreSQL.close() ----------- pending
             setDatasource() ----------------------- pending
+                Database_PostgreSQL.getDataSource() pending
+            ADConnection.getConnection(boolean, int) ------------------------- pending
+            Database_PostgreSQL.getFromConnectionPool() ---------------------- pending
             readInfo(ADConnection) ---------------- pending
 
     AdmiralDatabase.java
@@ -67,8 +73,6 @@ validateConnectionDialog()------------------------- pending
             DATABASE_POSTGRESQL.java
             ========================
                 constructor() --------------------- ok
-                close() --------------------------- pending
-                getDataSource --------------------- pending
     CConnectionDialog
     =================
         constructor() ----------------------------- ok
@@ -85,8 +89,8 @@ validateConnectionDialog()------------------------- pending
                 showCenterScreen() ---------------- ok
                 getOkButton() --------------------- ok
                 getCancelButton() ----------------- ok
-        getConnection() --------------------------- pending
-        isCancel() -------------------------------- pending
+        getConnection() --------------------------- ok
+        isCancel() -------------------------------- ok
 
 
 Ini.java
