@@ -62,7 +62,9 @@ validateConnectionDialog()------------------------- pending
                 Database_PostgreSQL.getDataSource() pending
             ADConnection.getConnection(boolean, int) ------------------------- pending
             Database_PostgreSQL.getFromConnectionPool() ---------------------- pending
-            readInfo(ADConnection) ---------------- pending
+                getDataSource(ADConnection) ------- ok
+                getConnectionURL(ADConnection) ---- ok
+            readInfo(ADConnection) ---------------- ok
 
     AdmiralDatabase.java
     ====================

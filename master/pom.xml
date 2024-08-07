@@ -22,6 +22,7 @@
     <admiral.slf4j.version>2.0.7</admiral.slf4j.version>
     <admiral.logback.version>1.4.8</admiral.logback.version>
     <admiral.postgresql.version>42.7.3</admiral.postgresql.version>
+    <admiral.hikari.version>5.0.1</admiral.hikari.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <admiral.jdk.version>17</admiral.jdk.version>
     <hamcrest.all.version>3.0</hamcrest.all.version>
@@ -59,6 +60,11 @@
         <artifactId>junit-jupiter-api</artifactId>
         <version>${junit.version}</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.zaxxer</groupId>
+        <artifactId>HikariCP</artifactId>
+        <version>${admiral.hikari.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

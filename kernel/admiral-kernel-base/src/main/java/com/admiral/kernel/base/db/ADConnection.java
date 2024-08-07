@@ -6,6 +6,9 @@ import com.admiral.kernel.util.secure.SecureEngine;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public class ADConnection implements Serializable, Cloneable {
@@ -204,6 +207,23 @@ public class ADConnection implements Serializable, Cloneable {
                 break;
             }
         }
+    }
+
+    public boolean isDataSource ()
+    {
+        return ad_ds != null;
+    } 	//	isDataSource
+
+    public void readInfo(Connection conn) throws SQLException {
+        DatabaseMetaData dbmd = conn.getMetaData();
+        m_info[0] = "Database=" + dbmd.getDatabaseProductName() + " - " + dbmd.getDatabaseProductVersion();
+        m_info[0] = m_info[0].replace('\n', ' ');
+        m_info[1] = "Drive =" + dbmd.getDriverName() + " - " + dbmd.getDriverVersion();
+        if(isDataSource()){
+            m_info[1] += " - via Datasouurce";
+        }
+        m_info[1] = m_info[1].replace('\n', ' ');
+        log.config(m_info[0] + " - " + m_info[1]);
     }
 
     @Override

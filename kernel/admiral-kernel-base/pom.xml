@@ -32,6 +32,10 @@
       <artifactId>postgresql</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest</artifactId>
     </dependency>
