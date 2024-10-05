@@ -5,11 +5,13 @@ import com.admiral.client.swing.CDialog;
 import com.admiral.kernel.base.db.ADConnection;
 import com.admiral.kernel.base.db.Database;
 import com.admiral.kernel.base.db.Database_PostgreSQL;
+import com.admiral.kernel.util.Ini;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ADConnectionDialog extends CDialog implements ActionListener {
@@ -193,4 +195,84 @@ public class ADConnectionDialog extends CDialog implements ActionListener {
     public boolean isCancel() {
         return isCancel;
     }
+
+    private void setBusy(boolean busy){
+        if(busy){
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        }else{
+            this.setCursor(Cursor.getDefaultCursor());
+        }
+        m_updating = busy;
+    }
+
+    private void cmd_testDB(){
+        setBusy(true);
+        Exception e = m_cc.testDatabase();
+
+        if(e != null){
+            JOptionPane.showMessageDialog(ADConnectionDialog.this, e.getMessage(), "Connection Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        setBusy(false);
+    }
+
+    private void updateADConnection(){
+        if(Ini.isClient()){
+            if(!hostField.getText().equals(m_cc.getDbHost())){
+                m_cc.setAppsHost(hostField.getText());
+            }
+        }
+        else{
+            m_cc.setAppsHost("localhost");
+        }
+
+        //
+        m_cc.setType((String) dbTypeField.getSelectedItem());
+        m_cc.setDbHost(hostField.getText());
+        m_cc.setDbPort(dbPortField.getText());
+        m_cc.setDbName(sidField.getText());
+        m_cc.setDbUid(dbUidField.getText());
+        m_cc.setDbPwd(String.valueOf(dbPwdField.getPassword()));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(m_updating)
+            return;
+        Object	src	= e.getSource();
+
+        if(src == bOK){
+            m_cc.setName();
+            m_ccResult = m_cc;
+            dispose();
+            return;
+        }else if(src == bCancel){
+            m_cc.setName();
+            dispose();
+            return;
+        }else if(src == dbTypeField){
+            if(dbTypeField.getSelectedItem() == null){
+                return;
+            }
+
+            if(m_cc.getType() != (String)dbTypeField.getSelectedItem()){
+                m_cc.setType((String)dbTypeField.getSelectedItem());
+                // todo m_cc.setDatabaseDefaults()
+            }
+
+            dbPortField.setText(String.valueOf(m_cc.getDbPort()));
+        }
+
+        updateADConnection();
+        if(src == bTestDB){
+            cmd_testDB();
+        }
+
+        if(src == nameField){
+            m_cc.setName(nameField.getText());
+        }
+
+        updateInfo();
+    }
+
 }

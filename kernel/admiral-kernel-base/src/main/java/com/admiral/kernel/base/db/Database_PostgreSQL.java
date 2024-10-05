@@ -5,6 +5,10 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,8 +30,35 @@ public class Database_PostgreSQL implements AdmiralDatabase{
     public Database_PostgreSQL() {}
 
     @Override
-    public void close() {
+    public Driver getDriver() throws SQLException {
+        if(ad_driver == null) {
+            ad_driver = new org.postgresql.Driver();
+            DriverManager.registerDriver(ad_driver);
+            DriverManager.setLoginTimeout(Database.CONNECTION_TIMEOUT);
+        }
+        return ad_driver;
+    }
 
+    @Override
+    public synchronized void close() {
+        log.fine(toString());
+        if (datasourceLongRunning != null)
+        {
+            try
+            {
+                datasourceLongRunning.getConnection().close(); //m_ds.close();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        datasourceLongRunning = null;
+    }
+
+    @Override
+    public String getName() {
+        return "";
     }
 
     public String getConnectionURL (ADConnection connection)
@@ -41,6 +72,18 @@ public class Database_PostgreSQL implements AdmiralDatabase{
         ad_connection = sb.toString();
         return ad_connection;
     }   //  getConnectionString
+
+    public Connection getFromConnectionPool(ADConnection connection, boolean autoCommit, int transactionIsolation) throws Exception{
+        if(datasourceLongRunning == null){
+            getDataSource(connection);
+        }
+        Connection localConnection = datasourceLongRunning.getConnection();
+        if(localConnection != null){
+            localConnection.setAutoCommit(autoCommit);
+            localConnection.setTransactionIsolation(transactionIsolation);
+        }
+        return localConnection;
+    }
 
     public DataSource getDataSource(ADConnection connection) {
         if(datasourceLongRunning != null) {
@@ -72,5 +115,10 @@ public class Database_PostgreSQL implements AdmiralDatabase{
             exception.printStackTrace();
         }
         return datasourceLongRunning;
+    }
+
+    @Override
+    public Connection getCachedConnection(ADConnection connection, boolean autoCommit, int transactionIsolation) throws Exception {
+        return null;
     }
 }

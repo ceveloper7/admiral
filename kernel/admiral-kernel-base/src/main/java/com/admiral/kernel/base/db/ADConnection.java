@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ADConnection implements Serializable, Cloneable {
@@ -214,6 +215,143 @@ public class ADConnection implements Serializable, Cloneable {
         return ad_ds != null;
     } 	//	isDataSource
 
+    public boolean setDataSource(){
+        if((ad_ds == null) && Ini.isClient()){
+            if(getDatabase() != null){
+                ad_ds = getDatabase().getDataSource(this);
+            }
+        }
+        return ad_ds != null;
+    }
+
+    public AdmiralDatabase      getDatabase(){
+        if((ad_db != null) && !ad_db.getName().equals(ad_type)){
+            ad_db = null;
+        }
+
+        if(ad_db == null){
+            try{
+                for(int i = 0; i < Database.DATABASE_NAMES.length; i++){
+                    if(Database.DATABASE_NAMES[i].equals(ad_type)){
+                        ad_db = (AdmiralDatabase) Database.DATABASE_CLASSES[i].newInstance();
+                        break;
+                    }
+                }
+//                if(ad_db != null){
+//                    ad_db.getDataSource(this);
+//                }
+            }
+            catch(Exception e){
+                log.severe(e.toString());
+            }
+        }
+        return ad_db;
+    }
+
+    /**
+     *      Get Transaction Isolation Info
+     *      @param transactionIsolation trx iso
+     *      @return clear test
+     */
+    public static String getTransactionIsolationInfo(int transactionIsolation) {
+
+        if (transactionIsolation == Connection.TRANSACTION_NONE) {
+            return "NONE";
+        }
+
+        if (transactionIsolation == Connection.TRANSACTION_READ_COMMITTED) {
+            return "READ_COMMITTED";
+        }
+
+        if (transactionIsolation == Connection.TRANSACTION_READ_UNCOMMITTED) {
+            return "READ_UNCOMMITTED";
+        }
+
+        if (transactionIsolation == Connection.TRANSACTION_REPEATABLE_READ) {
+            return "REPEATABLE_READ";
+        }
+
+        if (transactionIsolation == Connection.TRANSACTION_READ_COMMITTED) {
+            return "SERIALIZABLE";
+        }
+
+        return "<?" + transactionIsolation + "?>";
+
+    }		// getTransactionIsolationInfo
+
+    public String getConnectionURL(){
+        getDatabase();
+        if(ad_db != null){
+            return ad_db.getConnectionURL(this);
+        }else{
+            return "";
+        }
+    }
+
+    public Connection getConnection(boolean autoCommit, int transactionIsolation){
+        Connection connection = null;
+        ad_dbException = null;
+        ad_okDB = false;
+
+        getDatabase();
+        if(ad_db == null){
+            ad_dbException = new IllegalStateException("No database connector");
+            return null;
+        }
+
+        try{
+            Exception ee = null;
+            try{
+                connection = ad_db.getCachedConnection(this, autoCommit, transactionIsolation);
+            }
+            catch(Exception exception){
+                log.severe(exception.getMessage());
+                ee = exception;
+            }
+            //	Verify Connection
+            if (connection != null)
+            {
+                if (connection.getTransactionIsolation() != transactionIsolation)
+                    connection.setTransactionIsolation (transactionIsolation);
+                if (connection.getAutoCommit() != autoCommit)
+                    connection.setAutoCommit (autoCommit);
+                ad_okDB = true;
+            }
+        }
+        catch (UnsatisfiedLinkError ule){
+            String msg = ule.getLocalizedMessage()
+                    + " -> Did you set the LD_LIBRARY_PATH ? - " + getConnectionURL();
+            ad_dbException = new Exception(msg);
+            log.severe(msg);
+        }
+        catch (SQLException ex){
+            if(connection == null){
+                log.log(Level.SEVERE, getConnectionURL() + ", (1) AutoCommit=" + autoCommit + ",TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
+
+                        // + " (" + getDbUid() + "/" + getDbPwd() + ")"
+                        + " - " + ex.getMessage());
+            }else{
+                try{
+                    log.severe(getConnectionURL() + ", (2) AutoCommit=" + connection.getAutoCommit() + "->" + autoCommit + ", TrxIso=" + getTransactionIsolationInfo(connection.getTransactionIsolation()) + "->" + getTransactionIsolationInfo(transactionIsolation)
+
+                            // + " (" + getDbUid() + "/" + getDbPwd() + ")"
+                            + " - " + ex.getMessage());
+                }
+                catch (Exception ee){
+                    log.severe(getConnectionURL() + ", (3) AutoCommit=" + autoCommit + ", TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
+
+                            // + " (" + getDbUid() + "/" + getDbPwd() + ")"
+                            + " - " + ex.getMessage());
+                }
+            }
+        }
+        catch(Exception ex){
+            ad_dbException = ex;
+            log.log(Level.SEVERE, getConnectionURL(), ex);
+        }
+        return connection;
+    }
+
     public void readInfo(Connection conn) throws SQLException {
         DatabaseMetaData dbmd = conn.getMetaData();
         m_info[0] = "Database=" + dbmd.getDatabaseProductName() + " - " + dbmd.getDatabaseProductVersion();
@@ -234,5 +372,26 @@ public class ADConnection implements Serializable, Cloneable {
         info[1] = m_info[1];
         c.m_info = info;
         return c;
+    }
+
+    public Exception testDatabase(){
+        if(ad_ds != null){
+            getDatabase().close();
+        }
+        ad_ds = null;
+        setDataSource();
+
+        Connection conn = getConnection(true, Connection.TRANSACTION_READ_COMMITTED);
+        if(conn != null){
+            try{
+                readInfo(conn);
+                conn.close();
+            }
+            catch(Exception ex){
+                log.log(Level.SEVERE, ex.toString());
+                return ex;
+            }
+        }
+        return ad_dbException;
     }
 }

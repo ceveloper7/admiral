@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 public class Database {
     public static final Logger log = Logger.getLogger(Database.class.getName());
 
+    public static int CONNECTION_TIMEOUT = 10;
     public static String DATABASE_POSTGRESQL = "PostgreSQL";
     public static String DATABASE_MARIADB = "MariaDB";
     public static String DATABASE_SQLSERVER = "SQLServer";

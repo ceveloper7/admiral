@@ -52,16 +52,18 @@ validateConnectionDialog()------------------------- pending
         get() ------------------------------------- ok
             get(String) --------------------------- ok
                 ADConnection.setAttributes(String)- ok
-                Ini.saveProperties()--------------- pending
-        testDatabase(boolean) --------------------- pending
-            getDatabase() ------------------------- pending
-                Database_PostgreSQL.getDataSource() pending
+                Ini.saveProperties()--------------- ok
+        testDatabase(boolean) --------------------- ok
+            getDatabase() ------------------------- ok
+                Database_PostgreSQL.getDataSource() ok
                 Ini.deleteProperty() -------------- pending
-            Database_PostgreSQL.close() ----------- pending
-            setDatasource() ----------------------- pending
-                Database_PostgreSQL.getDataSource() pending
-            ADConnection.getConnection(boolean, int) ------------------------- pending
-            Database_PostgreSQL.getFromConnectionPool() ---------------------- pending
+            Database_PostgreSQL.close() ----------- ok
+            setDatasource() ----------------------- ok
+                Database_PostgreSQL.getDataSource() ok
+            ADConnection.getConnection(boolean, int) ------------------------- ok
+                getConnectionURL() ---------------- ok
+                    getDatabase() ----------------- ok
+            Database_PostgreSQL.getFromConnectionPool() ---------------------- ok
                 getDataSource(ADConnection) ------- ok
                 getConnectionURL(ADConnection) ---- ok
             readInfo(ADConnection) ---------------- ok
@@ -79,6 +81,11 @@ validateConnectionDialog()------------------------- pending
     =================
         constructor() ----------------------------- ok
             jbInit() ------------------------------ ok
+            actionPerformed(ActionEvent) __________ pending
+                            updateADConnection() ______________ ok
+                            updateInfo() ______________________ ok
+                            cmd_testDB() ______________________ ok
+                            setBusy() _________________________ ok
             setConnection() ----------------------- ok
                 ADConnection.get() ---------------- ok
                 ADConnection.clone() -------------- ok
