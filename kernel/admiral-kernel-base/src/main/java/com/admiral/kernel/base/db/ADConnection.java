@@ -1,9 +1,9 @@
 package com.admiral.kernel.base.db;
 
+import com.admiral.kernel.base.Admiral;
 import com.admiral.kernel.util.Ini;
 import com.admiral.kernel.util.secure.SecureEngine;
 
-import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -127,6 +127,37 @@ public class ADConnection implements Serializable, Cloneable {
         return sb.toString();
     }
 
+    public String toStringDetail ()
+    {
+        StringBuffer sb = new StringBuffer (ad_apps_host);
+        sb.append ("{").append (ad_db_host)
+                .append ("-").append (ad_db_name)
+                .append ("-").append (ad_db_uid)
+                .append ("}");
+        //
+        Connection conn = getConnection (true,
+                Connection.TRANSACTION_READ_COMMITTED);
+        if (conn != null)
+        {
+            try
+            {
+                DatabaseMetaData dbmd = conn.getMetaData ();
+                sb.append("\nDatabase=" + dbmd.getDatabaseProductName ()
+                        + " - " + dbmd.getDatabaseProductVersion());
+                sb.append("\nDriver  =" + dbmd.getDriverName ()
+                        + " - " + dbmd.getDriverVersion ());
+                if (isDataSource())
+                    sb.append(" - via DS");
+                conn.close ();
+            }
+            catch (Exception e)
+            {
+            }
+        }
+        conn = null;
+        return sb.toString ();
+    } 	//  toStringDetail
+
     public String getName() {
         return ad_name;
     }
@@ -201,8 +232,8 @@ public class ADConnection implements Serializable, Cloneable {
     }
 
     public void setType(String type){
-        for(int i = 0; i < Database.DATABASE_NAMES.length; i++){
-            if(type.contains(Database.DATABASE_NAMES[i])){
+        for(int i = 0; i < Databases.DATABASE_NAMES.length; i++){
+            if(type.contains(Databases.DATABASE_NAMES[i])){
                 ad_type = type;
                 ad_okDB = false;
                 break;
@@ -224,16 +255,24 @@ public class ADConnection implements Serializable, Cloneable {
         return ad_ds != null;
     }
 
-    public AdmiralDatabase      getDatabase(){
+    public boolean setDataSource(DataSource ds){
+        if(ds == null && ad_ds != null){
+            getDatabase().close();
+        }
+        ad_ds = ds;
+        return ad_ds != null;
+    }
+
+    public AdmiralDatabase getDatabase(){
         if((ad_db != null) && !ad_db.getName().equals(ad_type)){
             ad_db = null;
         }
 
         if(ad_db == null){
             try{
-                for(int i = 0; i < Database.DATABASE_NAMES.length; i++){
-                    if(Database.DATABASE_NAMES[i].equals(ad_type)){
-                        ad_db = (AdmiralDatabase) Database.DATABASE_CLASSES[i].newInstance();
+                for(int i = 0; i < Databases.DATABASE_NAMES.length; i++){
+                    if(Databases.DATABASE_NAMES[i].equals(ad_type)){
+                        ad_db = (AdmiralDatabase) Databases.DATABASE_CLASSES[i].newInstance();
                         break;
                     }
                 }
@@ -354,7 +393,7 @@ public class ADConnection implements Serializable, Cloneable {
 
     public void readInfo(Connection conn) throws SQLException {
         DatabaseMetaData dbmd = conn.getMetaData();
-        m_info[0] = "Database=" + dbmd.getDatabaseProductName() + " - " + dbmd.getDatabaseProductVersion();
+        m_info[0] = "Databases=" + dbmd.getDatabaseProductName() + " - " + dbmd.getDatabaseProductVersion();
         m_info[0] = m_info[0].replace('\n', ' ');
         m_info[1] = "Drive =" + dbmd.getDriverName() + " - " + dbmd.getDriverVersion();
         if(isDataSource()){
@@ -393,5 +432,19 @@ public class ADConnection implements Serializable, Cloneable {
             }
         }
         return ad_dbException;
+    }
+
+
+
+    public static void main(String[] args) {
+        Admiral.startup(true);
+        System.out.println("Connection = ");
+
+        System.out.println(Ini.getProperty(Ini.P_CONNECTION));
+        ADConnection cc = ADConnection.get();
+        System.out.println(">> " + cc.toStringDetail());
+
+        Connection con = cc.getConnection(false, Connection.TRANSACTION_READ_COMMITTED);
+        new ADConnectionDialog(cc);
     }
 }

@@ -18,8 +18,20 @@ mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes
 Compilas un modulo
 mvn clean install -Dmaven.test.skip=true
 
+
 org.adempiere.Adempiere.java
 ============================
+startup(boolean) __________________________________ pending
+    DB.setTarget(ADConnection) ____________________ OK
+        DB.closeTarget() __________________________ ok
+
+    startUpEnvironment(boolean) ___________________ pending
+        DB.isConnected() __________________________ ok
+            DB.isConnected(boolean) _______________ ok
+                DB.getConnectionRW() ______________ ok
+                    DB.getConnectionRW(boolean) ___ ok
+                        DB.createConnection(boolean, boolean, int) _____________________________ ok
+
 validateConnectionDialog()------------------------- pending
     Ini.java
     ========

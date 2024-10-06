@@ -36,7 +36,7 @@ public interface AdmiralDatabase {
                                           boolean autoCommit, int transactionIsolation) throws Exception;
 
     /**
-     *  Get Database Connection String
+     *  Get Databases Connection String
      *  @param connection Connection Descriptor
      *  @return connection String
      */

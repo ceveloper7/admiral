@@ -34,7 +34,7 @@ public class Database_PostgreSQL implements AdmiralDatabase{
         if(ad_driver == null) {
             ad_driver = new org.postgresql.Driver();
             DriverManager.registerDriver(ad_driver);
-            DriverManager.setLoginTimeout(Database.CONNECTION_TIMEOUT);
+            DriverManager.setLoginTimeout(Databases.CONNECTION_TIMEOUT);
         }
         return ad_driver;
     }

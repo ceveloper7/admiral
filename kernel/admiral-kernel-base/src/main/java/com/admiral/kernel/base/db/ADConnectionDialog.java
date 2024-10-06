@@ -1,10 +1,7 @@
-package com.admiral.client.db;
+package com.admiral.kernel.base.db;
 
 import com.admiral.client.plaf.AdmiralPLAF;
 import com.admiral.client.swing.CDialog;
-import com.admiral.kernel.base.db.ADConnection;
-import com.admiral.kernel.base.db.Database;
-import com.admiral.kernel.base.db.Database_PostgreSQL;
 import com.admiral.kernel.util.Ini;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +32,7 @@ public class ADConnectionDialog extends CDialog implements ActionListener {
     private JLabel nameLabel = new JLabel();
     private JTextField nameField = new JTextField();
     private JLabel dbTypeLabel = new JLabel();
-    private JComboBox dbTypeField = new JComboBox(Database.DATABASE_NAMES);
+    private JComboBox dbTypeField = new JComboBox(Databases.DATABASE_NAMES);
     private JLabel hostLabel = new JLabel();
     private JTextField hostField = new JTextField();
     private JLabel portLabel = new JLabel();
@@ -60,17 +57,17 @@ public class ADConnectionDialog extends CDialog implements ActionListener {
         nameField.setColumns(30);
         nameField.setEditable(false);
 
-        dbTypeLabel.setText("Database Type");
-        hostLabel.setText("Database Host");
+        dbTypeLabel.setText("Databases Type");
+        hostLabel.setText("Databases Host");
         hostField.setColumns(30);
-        portLabel.setText("Database Port");
+        portLabel.setText("Databases Port");
         dbPortField.setColumns(10);
-        sidLabel.setText("Database Name");
+        sidLabel.setText("Databases Name");
         sidField.setColumns(30);
         dbUidLabel.setText("User/Password");
         dbUidField.setColumns(10);
 
-        bTestDB.setText("Test Database");
+        bTestDB.setText("Test Databases");
         bTestDB.setHorizontalAlignment(JLabel.LEFT);
 
         this.getContentPane().add(mainPanel, BorderLayout.CENTER);

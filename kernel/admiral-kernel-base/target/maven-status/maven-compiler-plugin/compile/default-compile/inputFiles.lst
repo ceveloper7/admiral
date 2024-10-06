@@ -1,4 +1,6 @@
 /home/ceva/local-projects/intellij/admiral/kernel/admiral-kernel-base/src/main/java/com/admiral/kernel/base/db/AdmiralDatabase.java
-/home/ceva/local-projects/intellij/admiral/kernel/admiral-kernel-base/src/main/java/com/admiral/kernel/base/db/Database.java
+/home/ceva/local-projects/intellij/admiral/kernel/admiral-kernel-base/src/main/java/com/admiral/kernel/base/db/Databases.java
+/home/ceva/local-projects/intellij/admiral/kernel/admiral-kernel-base/src/main/java/com/admiral/kernel/base/db/DB.java
+/home/ceva/local-projects/intellij/admiral/kernel/admiral-kernel-base/src/main/java/com/admiral/kernel/base/Admiral.java
 /home/ceva/local-projects/intellij/admiral/kernel/admiral-kernel-base/src/main/java/com/admiral/kernel/base/db/ADConnection.java
 /home/ceva/local-projects/intellij/admiral/kernel/admiral-kernel-base/src/main/java/com/admiral/kernel/base/db/Database_PostgreSQL.java
