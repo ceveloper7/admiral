@@ -2,14 +2,15 @@ package com.admiral.kernel.util;
 
 import com.admiral.kernel.util.secure.SecureEngine;
 import com.admiral.kernel.util.secure.SecureInterface;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import java.io.*;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class Ini implements Serializable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Ini.class);
+    private static final Logger LOGGER = Logger.getLogger(Ini.class.getName());
     private static final long serialVersionUID = 3666529972922769528L;
 
     private static final String ADMIRAL_PROPERTY_FILE = "admiral.properties";
@@ -60,12 +61,13 @@ public final class Ini implements Serializable {
             if(home != null){
                 base = home;
             }
-            if(base != null && !base.endsWith(File.separator)){
-                base += File.separator;
-            }
-            if(base == null) {
-                base = "";
-            }
+        }
+
+        if(base != null && !base.endsWith(File.separator)){
+            base += File.separator;
+        }
+        if(base == null) {
+            base = "";
         }
         return base + ADMIRAL_PROPERTY_FILE;
     }
@@ -81,7 +83,7 @@ public final class Ini implements Serializable {
             fos.close();
         }
         catch(Exception e){
-            LOGGER.error(" Cannot save properties to " + fileName + " - " + e.toString());
+            LOGGER.log(Level.SEVERE, "Cannot save properties to " + fileName + " - " + e.toString());
         }
     }
 
@@ -97,15 +99,15 @@ public final class Ini implements Serializable {
             fis.close();
         }
         catch(FileNotFoundException e){
-            LOGGER.warn(fileName + " not found");
+            LOGGER.warning(fileName + " not found");
             loaded = false;
         }
         catch(Exception e){
-            LOGGER.error(fileName + " - " + e.toString());
+            LOGGER.warning(fileName + " - " + e.toString());
             loaded = false;
         }
         catch (Throwable e){
-            LOGGER.error(fileName + " - " + e.toString());
+            LOGGER.warning(fileName + " - " + e.toString());
             loaded = false;
         }
 

@@ -1,14 +1,12 @@
 package com.admiral.client.plaf;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public final class AdmiralPLAF {
-    private static final Logger log = LoggerFactory.getLogger(AdmiralPLAF.class);
+    private static final Logger log = Logger.getLogger(AdmiralPLAF.class.getName());
 
     public static JButton getOkButton(){
         JButton b = new JButton();

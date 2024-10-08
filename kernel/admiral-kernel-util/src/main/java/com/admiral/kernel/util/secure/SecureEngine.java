@@ -1,12 +1,10 @@
 package com.admiral.kernel.util.secure;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class SecureEngine {
-    public static final Logger LOGGER = LoggerFactory.getLogger(SecureEngine.class);
+    public static final Logger LOGGER = Logger.getLogger(SecureEngine.class.getName());
 
     public static SecureEngine s_engine = null;
     private SecureInterface implementation = null;
@@ -28,7 +26,7 @@ public class SecureEngine {
         if(implementation == null){
             String msg = "Could not initialize: " + realClass + " - " + cause.toString()
                     + "\nCheck start script parameter ADMIRAL_SECURE";
-            LOGGER.error(msg);
+            LOGGER.severe(msg);
         }
         LOGGER.info(realClass + " initialized - " + implementation);
     }

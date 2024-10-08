@@ -3,16 +3,17 @@ package com.admiral.kernel.base.db;
 import com.admiral.client.plaf.AdmiralPLAF;
 import com.admiral.client.swing.CDialog;
 import com.admiral.kernel.util.Ini;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ADConnectionDialog extends CDialog implements ActionListener {
-    private static Logger log = LoggerFactory.getLogger(ADConnectionDialog.class);
+    private static Logger log = Logger.getLogger(ADConnectionDialog.class.getName());
 
     private ADConnection m_cc = null;
     private ADConnection m_ccResult = null;
@@ -132,7 +133,7 @@ public class ADConnectionDialog extends CDialog implements ActionListener {
             setConnection(cc);
         }
         catch (Exception e){
-            log.error(e.toString());
+            log.log(Level.SEVERE, e.toString());
         }
         AdmiralPLAF.showCenterScreen(this);
     }

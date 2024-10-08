@@ -36,7 +36,7 @@
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${admiral.slf4j.version}</version>
-        <scope>provided</scope>
+        <scope>runtime</scope>
       </dependency>
       <dependency>
         <groupId>ch.qos.logback</groupId>

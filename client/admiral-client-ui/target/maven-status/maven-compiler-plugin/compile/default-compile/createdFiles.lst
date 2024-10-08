@@ -1,4 +1,3 @@
 com/admiral/client/swing/CDialog.class
-com/admiral/client/plaf/AdmiralPLAF.class
-com/admiral/client/db/ADConnectionDialog.class
 com/admiral/client/swing/CDialog$DialogAction.class
+com/admiral/client/plaf/AdmiralPLAF.class

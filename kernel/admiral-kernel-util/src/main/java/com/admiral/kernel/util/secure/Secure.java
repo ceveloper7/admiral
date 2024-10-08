@@ -1,15 +1,15 @@
 package com.admiral.kernel.util.secure;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.AlgorithmParameters;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Secure implements SecureInterface{
-    private static final Logger LOGGER = LoggerFactory.getLogger(Secure.class);
+    private static final Logger LOGGER = Logger.getLogger(Secure.class.getName());
 
     // Admiral Cipher
     private Cipher m_cipher = null;
@@ -25,7 +25,7 @@ public class Secure implements SecureInterface{
             m_key = new SecretKeySpec(new byte[]{100,25,28,-122,-26,94,-3,-26}, "DES");
         }
         catch(Exception e){
-            LOGGER.error(e.getMessage(), e);
+            LOGGER.severe(e.getMessage());
         }
         m_cipher = cc;
     }
@@ -48,7 +48,7 @@ public class Secure implements SecureInterface{
             return retValue;
         }
         catch (Exception e){
-            LOGGER.error(hexString + " - " + e.getLocalizedMessage());
+            LOGGER.log(Level.SEVERE, hexString + " - " + e.getLocalizedMessage());
         }
         return null;
     }
